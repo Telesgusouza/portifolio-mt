@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
 export const Container = styled.main`
-    //height: 380px;
-
     height: 100%;
     min-height: calc(100vh - 80px);
     max-height: 500px;

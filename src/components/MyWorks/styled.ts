@@ -3,7 +3,9 @@ import styled from "styled-components";
 export const Container = styled.section`
   position: relative;
 
-  padding: 25px 30px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+
 
   hr {
     position: absolute;
@@ -158,6 +160,8 @@ export const ShowDesign = styled.div`
   left: 0;
   z-index: 1100;
 
+  padding: 20px;
+
   display: flex;
   flex-direction: column;
 
@@ -185,6 +189,8 @@ export const ShowDesignContent = styled.div`
 
   background-color: #444040;
 
+  overflow: auto;
+
   img {
     width: 200px;
     max-height: 490px;
@@ -204,6 +210,16 @@ export const ShowDesignContent = styled.div`
   p {
     line-height: 125%;
   }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+
+    div {
+      margin-left: 0px;
+
+      margin-top: 15px;
+    }
+  }
 `;
 
 export const ContainerButton = styled.div`
@@ -216,5 +232,4 @@ export const ContainerButton = styled.div`
     color: white;
     background-color: #ff6961;
   }
-  
 `;

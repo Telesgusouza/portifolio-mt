@@ -23,18 +23,20 @@ export default function MyWorks() {
             <button onClick={() => setShowDesign(false)}>Voltar</button>
           </Styled.ContainerButton>
 
-          <Styled.ShowDesignContent>
-            <img src={img1} alt="design" />
-            <div>
-              <h4>titulo</h4>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Impedit accusamus in consequatur hic asperiores, iusto quod
-                quia? Incidunt obcaecati nobis nam eos error, officiis fugiat
-                sunt explicabo asperiores quasi inventore!
-              </p>
-            </div>
-          </Styled.ShowDesignContent>
+          <Reveal duration={.2} >
+            <Styled.ShowDesignContent>
+              <img src={img1} alt="design" />
+              <div>
+                <h4>titulo</h4>
+                <p>
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Impedit accusamus in consequatur hic asperiores, iusto quod
+                  quia? Incidunt obcaecati nobis nam eos error, officiis fugiat
+                  sunt explicabo asperiores quasi inventore!
+                </p>
+              </div>
+            </Styled.ShowDesignContent>
+          </Reveal>
         </Styled.ShowDesign>
       )}
       <Styled.Filters>
@@ -56,24 +58,24 @@ export default function MyWorks() {
             </li>
           </Reveal>
           <Reveal initialY={50} delay={0.1} duration={0.3}>
-            <li onClick={() => setShowDesign(true)} >
+            <li onClick={() => setShowDesign(true)}>
               <img src={img4} alt="design" />
             </li>
           </Reveal>
         </ul>
         <ul>
           <Reveal initialY={50} delay={0.1} duration={0.3}>
-            <li onClick={() => setShowDesign(true)} >
+            <li onClick={() => setShowDesign(true)}>
               <img src={img2} alt="design" />
             </li>
           </Reveal>
           <Reveal initialY={50} delay={0.1} duration={0.3}>
-            <li onClick={() => setShowDesign(true)} >
+            <li onClick={() => setShowDesign(true)}>
               <img src={img4} alt="design" />
             </li>
           </Reveal>
           <Reveal initialY={50} delay={0.1} duration={0.3}>
-            <li onClick={() => setShowDesign(true)} >
+            <li onClick={() => setShowDesign(true)}>
               <img src={img5} alt="design" />
             </li>
           </Reveal>
@@ -81,17 +83,17 @@ export default function MyWorks() {
         <ul>
           {" "}
           <Reveal initialY={50} delay={0.1} duration={0.3}>
-            <li onClick={() => setShowDesign(true)} >
+            <li onClick={() => setShowDesign(true)}>
               <img src={img3} alt="design" />
             </li>
           </Reveal>
           <Reveal initialY={50} delay={0.1} duration={0.3}>
-            <li onClick={() => setShowDesign(true)} >
+            <li onClick={() => setShowDesign(true)}>
               <img src={icon} alt="design" />
             </li>
           </Reveal>
           <Reveal initialY={50} delay={0.1} duration={0.3}>
-            <li onClick={() => setShowDesign(true)} >
+            <li onClick={() => setShowDesign(true)}>
               <img src={img6} alt="design" />
             </li>
           </Reveal>
