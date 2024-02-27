@@ -1,13 +1,17 @@
-
+import AboutMe from "../components/AboutMe";
+import Header from "../components/Header";
+import Main from "../components/Main";
+import MyWorks from "../components/MyWorks";
 
 function App() {
-  
-
   return (
     <>
-      <h1>ola mundo</h1>
+      <Header />
+      <Main />
+      <AboutMe />
+      <MyWorks />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
