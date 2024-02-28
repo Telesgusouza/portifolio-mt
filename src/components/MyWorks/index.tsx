@@ -10,13 +10,14 @@ import img6 from "../../assets/imagens/briga_de_dog.jpg";
 import icon from "../../assets/icons/iconM_6.png";
 import Reveal from "../Reveal";
 import { useState } from "react";
+import Hr from "../Hr";
 
 export default function MyWorks() {
   const [showDesign, setShowDesign] = useState(false);
 
   return (
     <Styled.Container className="box">
-      <hr />
+      <Hr />
       {showDesign && (
         <Styled.ShowDesign>
           <Styled.ContainerButton>

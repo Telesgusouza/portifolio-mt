@@ -24,6 +24,22 @@ export const Container = styled.div`
     }
   }
 
+  hr {
+    @keyframes loading {
+      from {
+        width: 0%;
+      }
+
+      to {
+        width: 85%;
+      }
+    }
+    animation-name: loading;
+    animation-duration: 0.5s;
+    animation-delay: 0.5s;
+    animation-fill-mode: forwards;
+  }
+
   li {
     padding: 0 7px;
     margin-left: 8px;
@@ -51,10 +67,10 @@ export const Container = styled.div`
       left: 0;
       width: 100%;
     }
-  }
 
-  hr {
-    width: 70%;
+    img {
+      width: 20px;
+    }
   }
 `;
 
@@ -70,7 +86,7 @@ export const MenuMobile = styled.menu`
     align-items: center;
 
     position: absolute;
-    top: calc(0% - 280px);
+    top: calc(0% - 350px);
 
     right: 0;
 
@@ -93,6 +109,10 @@ export const MenuMobile = styled.menu`
 
     &::after {
       top: calc(100% + 2px);
+    }
+
+    &:nth-child(4), &:nth-child(5), &:nth-child(6) {
+      width: 100px;
     }
   }
 

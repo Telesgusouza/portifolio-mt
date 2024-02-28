@@ -16,7 +16,6 @@ export default function Reveal({ children, initialY = 75, delay = 0.12, duration
   const {ref, inView} = useInView({ threshold: 0 });
 
   useEffect(() => {
-    console.log(inView)
     if(inView) {
         setIsVisible("visible");
     }

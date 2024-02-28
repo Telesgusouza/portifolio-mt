@@ -14,13 +14,6 @@ export const Container = styled.section`
     padding: 0;
   }
 
-  hr {
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    width: 85%;
-  }
 
   img {
     width: 300px;

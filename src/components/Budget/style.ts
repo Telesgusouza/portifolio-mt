@@ -5,14 +5,6 @@ export const Container = styled.section`
   padding-bottom: 40px;
 
   position: relative;
-
-  hr {
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 85%;
-  }
 `;
 
 export const ContainerContent = styled.form`

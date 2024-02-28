@@ -1,10 +1,13 @@
+import Hr from "../Hr";
+import Reveal from "../Reveal";
 import * as Styled from "./style";
 
 export default function SectionBudget() {
   return (
     <Styled.Container>
-      <hr />
+      <Hr />
       <Styled.ContainerContent className="box">
+        <Reveal>
         <h3>Orçamento</h3>
         <strong>Peça seu orçamento agora</strong>
         
@@ -22,6 +25,7 @@ export default function SectionBudget() {
         <button>
             Enviar
         </button>
+        </Reveal>
       </Styled.ContainerContent>
     </Styled.Container>
   );

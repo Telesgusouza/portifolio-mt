@@ -6,12 +6,6 @@ export const Container = styled.section`
 
   position: relative;
 
-  hr {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 85%;
-  }
 `;
 
 export const ContainerContent = styled.div`
@@ -20,7 +14,7 @@ export const ContainerContent = styled.div`
   grid-gap: 18px;
 
   p {
-    font-size: .95rem;
+    font-size: 0.95rem;
     line-height: 127%;
   }
 

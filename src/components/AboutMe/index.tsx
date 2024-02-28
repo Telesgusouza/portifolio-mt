@@ -1,11 +1,13 @@
 import * as Styled from "./style";
 import noUser from "../../assets/imagens/24.jpg";
 import Reveal from "../Reveal";
+import Hr from "../Hr";
 
 export default function AboutMe() {
   return (
     <Styled.Container className="box">
-      <hr />
+      {/* <hr /> */}
+      <Hr directionX={true} />
       <Reveal>
         <article>
           <img src={noUser} alt="foto sobre mim" />

@@ -7,14 +7,6 @@ export const Container = styled.section`
   padding-bottom: 25px;
 
 
-  hr {
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 85%;
-  }
-
   h4 {
     font-size: 2rem;
     text-transform: capitalize;

@@ -20,6 +20,26 @@ export const ContainerContent = styled.div`
   ul {
     display: flex;
     flex-direction: column;
+
+    cursor: default;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 8px;
+
+    cursor: pointer;
+
+    &:nth-child(5) {
+      margin-bottom: 0;
+    }
+  }
+
+  img {
+    width: 16px;
+    margin-right: 7px;
   }
 
   strong {
@@ -40,7 +60,7 @@ export const ContainerContent = styled.div`
     text-align: center;
 
     ul {
-        margin-bottom: 24px;
+      margin-bottom: 24px;
     }
 
     li {
