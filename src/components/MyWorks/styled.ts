@@ -6,7 +6,6 @@ export const Container = styled.section`
   padding-top: 25px;
   padding-bottom: 25px;
 
-
   h4 {
     font-size: 2rem;
     text-transform: capitalize;
@@ -148,6 +147,7 @@ export const ForwardOrBack = styled.div`
 
 export const ShowDesign = styled.div`
   position: fixed;
+  /* position: absolute; */
   top: 0;
   left: 0;
   z-index: 1100;
@@ -163,7 +163,7 @@ export const ShowDesign = styled.div`
   width: 100%;
   height: 100%;
 
-  background-color: rgba(25, 21, 21, 0.4);
+  background-color: rgba(25, 21, 21, 0.5);
 `;
 
 export const ShowDesignContent = styled.div`
@@ -171,7 +171,7 @@ export const ShowDesignContent = styled.div`
   flex-direction: row;
 
   width: 100%;
-  max-width: 500px;
+  max-width: 900px;
 
   max-height: calc(100vh - 90px);
 
@@ -184,8 +184,9 @@ export const ShowDesignContent = styled.div`
   overflow: auto;
 
   img {
-    width: 200px;
-    max-height: 490px;
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
 
     object-fit: cover;
   }
@@ -203,7 +204,7 @@ export const ShowDesignContent = styled.div`
     line-height: 125%;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 850px) {
     flex-direction: column;
 
     div {
