@@ -8,17 +8,19 @@ import {
   DocumentData,
   Query,
   collection,
+  endBefore,
   getDocs,
   limit,
   orderBy,
   query,
-  startAfter,
+  startAt,
   where,
 } from "firebase/firestore";
 import { db } from "../../config/firebase/firebase";
 import { IDesign } from "../../config/interface";
 
 interface INextDesing {
+  currentPage: number;
   countNumPages: number[];
   listObjects: DocumentData[];
 }
@@ -29,6 +31,7 @@ export default function MyWorks() {
   // const [currentOptionFilter, setCurrentOptionFilter] = useState<string>("");
   const [lastVisible, setLastVisible] = useState<DocumentData>();
   const [nextDesigns, setNextDesigns] = useState<INextDesing>({
+    currentPage: 1,
     countNumPages: [],
     listObjects: [],
   });
@@ -55,22 +58,29 @@ export default function MyWorks() {
     async function getPagination() {
       try {
         const collectionRef = collection(db, "/design/mt/data");
+        const countQuery = query(
+          collectionRef,
+          where("date", ">", new Date("2024-01-01")),
+          orderBy("date", "desc")
+        );
 
-        const countQuery = query(collectionRef);
         const countSnapshot = await getDocs(countQuery);
         const totalDocuments = countSnapshot.size;
         const totalPages = Math.ceil(totalDocuments / 9);
 
         const obj: INextDesing = {
+          currentPage: 1,
           countNumPages: [],
           listObjects: [],
         };
 
         for (let i = 1; i <= totalPages; i++) {
           obj.countNumPages.push(i);
-          obj.listObjects.push(countSnapshot.docChanges()[i - 1]);
-        }
 
+          obj.listObjects.push(
+            countSnapshot.docChanges()[i === 1 ? 0 : (i - 1) * 9 - 1].doc
+          );
+        }
         setNextDesigns(obj);
       } catch (e) {
         console.error("Error ", e);
@@ -139,7 +149,7 @@ export default function MyWorks() {
         collectionRef,
         where("date", ">", new Date("2024-01-01")),
         limit(9),
-        orderBy("date")
+        orderBy("date", "desc")
       );
 
       await getData(q);
@@ -164,17 +174,69 @@ export default function MyWorks() {
     }
   }
 
-  async function nextPage() {
+  async function nextBackPage(page: string, numPage: number = 1) {
     try {
       const collectionRef = collection(db, "/design/mt/data");
-      const q = query(
-        collectionRef,
-        orderBy("date"),
-        startAfter(lastVisible),
-        limit(9)
-      );
 
-      await getData(q);
+      switch (page) {
+        case "BACK": {
+          if (nextDesigns.currentPage !== 1) {
+            const q = query(
+              collectionRef,
+              orderBy("date", "desc"),
+              endBefore(lastVisible),
+              limit(9)
+            );
+            await getData(q);
+
+            const obj = nextDesigns;
+            nextDesigns.currentPage--;
+            setNextDesigns(obj);
+          }
+
+          break;
+        }
+
+        case "NEXT": {
+          if (
+            nextDesigns.currentPage !==
+            nextDesigns.countNumPages[nextDesigns.countNumPages.length - 1]
+          ) {
+            const q = query(
+              collectionRef,
+              orderBy("date", "desc"),
+              startAt(lastVisible),
+              limit(9)
+            );
+
+            await getData(q);
+
+            const obj = nextDesigns;
+            nextDesigns.currentPage++;
+            setNextDesigns(obj);
+          }
+          break;
+        }
+
+        case "PAGE": {
+          console.log(nextDesigns.listObjects[numPage - 1].data().design);
+
+          const q = query(
+            collectionRef,
+            orderBy("date", "desc"),
+            startAt(nextDesigns.listObjects[numPage - 1]),
+            limit(9)
+          );
+
+          const obj = nextDesigns;
+          nextDesigns.currentPage = numPage;
+          setNextDesigns(obj);
+
+          await getData(q);
+
+          break;
+        }
+      }
     } catch (e) {
       console.error("Error ", e);
     }
@@ -244,16 +306,29 @@ export default function MyWorks() {
 
       <Styled.ForwardOrBack>
         <ul>
-
           {nextDesigns.countNumPages.length > 0 && (
             <>
-              <li onClick={nextPage}>Voltar</li>
+              {nextDesigns.countNumPages.length > 1 && (
+                <Styled.LiPage onClick={() => nextBackPage("BACK")}>
+                  Voltar
+                </Styled.LiPage>
+              )}
+
               {nextDesigns.countNumPages.map((count) => (
                 <>
-                  <li>{count}</li>
+                  <Styled.LiPage
+                    onClick={() => nextBackPage("PAGE", count)}
+                    selected={nextDesigns.currentPage == count}
+                  >
+                    {count}
+                  </Styled.LiPage>
                 </>
               ))}
-              <li onClick={nextPage}>Próximo</li>
+              {nextDesigns.countNumPages.length > 1 && (
+                <Styled.LiPage onClick={() => nextBackPage("NEXT")}>
+                  Próximo
+                </Styled.LiPage>
+              )}
             </>
           )}
         </ul>

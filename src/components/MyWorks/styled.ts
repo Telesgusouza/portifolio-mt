@@ -1,4 +1,8 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+interface ILiPage {
+  selected?: boolean;
+}
 
 export const Container = styled.section`
   position: relative;
@@ -225,4 +229,13 @@ export const ContainerButton = styled.div`
     color: white;
     background-color: #ff6961;
   }
+`;
+
+export const LiPage = styled.li<ILiPage>`
+  ${(props) =>
+    props.selected &&
+    css`
+      background-color: #fafafa;
+      color: #040404;
+    `}
 `;
