@@ -27,6 +27,7 @@ export const ContainerContent = styled.form`
     display: flex;
     flex-direction: column;
 
+    margin-top: 20px;
     margin-bottom: 18px;
 
     font-size: 1.1rem;

@@ -239,3 +239,32 @@ export const LiPage = styled.li<ILiPage>`
       color: #040404;
     `}
 `;
+
+export const LoadingContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 25px;
+
+  @keyframes loading {
+    0% {
+      background-position: 0%;
+    }
+
+    50% {
+      background-position: 100%;
+    }
+
+    100% {
+      background-position: 0%;
+    }
+  }
+
+  div {
+    height: 200px;
+    background: transparent;
+
+    background-image: linear-gradient(45deg, transparent, #c3c3c3, transparent);
+    background-size: 400%;
+    animation: loading 1s linear infinite;
+  }
+`;

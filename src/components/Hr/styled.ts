@@ -7,7 +7,8 @@ interface IProps {
 }
 
 export const Hr = styled.hr<IProps>`
- @keyframes loading {
+  width: 85%;
+  @keyframes loading {
     from {
       width:  0%;
     }

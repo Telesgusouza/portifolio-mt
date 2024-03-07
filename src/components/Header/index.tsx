@@ -63,19 +63,19 @@ export default function Header() {
         <ul>
           {linksAndIcon.instagram.length > 1 && (
             <li onClick={() => handleReload(linksAndIcon.instagram)}>
-              <img src={iconInstagrem} alt="icone ... " />
+              <img src={iconInstagrem} alt="icone instagram" />
             </li>
           )}
 
           {linksAndIcon.linkedin.length > 1 && (
             <li onClick={() => handleReload(linksAndIcon.linkedin)}>
-              <img src={iconLinkedin} alt="icone ... " />
+              <img src={iconLinkedin} alt="icone linkedin" />
             </li>
           )}
 
           {linksAndIcon.whatsapp.length > 1 && (
-            <li onClick={() => handleReload(linksAndIcon.whatsapp)}>
-              <img src={iconWhatsapp} alt="icone ... " />
+            <li onClick={() => handleReload("https://wa.me/"+linksAndIcon.whatsapp)}>
+              <img src={iconWhatsapp} alt="icone whatsapp" />
             </li>
           )}
           <li>

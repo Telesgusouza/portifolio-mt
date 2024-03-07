@@ -28,7 +28,8 @@ interface INextDesing {
 export default function MyWorks() {
   const [showDesign, setShowDesign] = useState(false);
   const [listFilters, setListFilters] = useState<string[]>([]);
-  // const [currentOptionFilter, setCurrentOptionFilter] = useState<string>("");
+  const [currentOptionFilter, setCurrentOptionFilter] =
+    useState<string>("Todos");
   const [lastVisible, setLastVisible] = useState<DocumentData>();
   const [nextDesigns, setNextDesigns] = useState<INextDesing>({
     currentPage: 1,
@@ -37,8 +38,8 @@ export default function MyWorks() {
   });
 
   const [listDesings, setListDesings] = useState<
-    [IDesign[], IDesign[], IDesign[]]
-  >([[], [], []]);
+    [IDesign[], IDesign[], IDesign[]] | null
+  >(null);
   const [currentData, setCurrentData] = useState<IDesign>();
 
   useEffect(() => {
@@ -55,42 +56,34 @@ export default function MyWorks() {
       }
     }
 
-    async function getPagination() {
-      try {
-        const collectionRef = collection(db, "/design/mt/data");
-        const countQuery = query(
-          collectionRef,
-          where("date", ">", new Date("2024-01-01")),
-          orderBy("date", "desc")
-        );
-
-        const countSnapshot = await getDocs(countQuery);
-        const totalDocuments = countSnapshot.size;
-        const totalPages = Math.ceil(totalDocuments / 9);
-
-        const obj: INextDesing = {
-          currentPage: 1,
-          countNumPages: [],
-          listObjects: [],
-        };
-
-        for (let i = 1; i <= totalPages; i++) {
-          obj.countNumPages.push(i);
-
-          obj.listObjects.push(
-            countSnapshot.docChanges()[i === 1 ? 0 : (i - 1) * 9 - 1].doc
-          );
-        }
-        setNextDesigns(obj);
-      } catch (e) {
-        console.error("Error ", e);
-      }
-    }
-
-    getPagination();
     getDataDesign();
     getListFilter();
   }, []);
+
+  async function getPagination(q: Query<unknown, DocumentData>) {
+    try {
+      const countSnapshot = await getDocs(q);
+      const totalDocuments = countSnapshot.size;
+      const totalPages = Math.ceil(totalDocuments / 9);
+
+      const obj: INextDesing = {
+        currentPage: 1,
+        countNumPages: [],
+        listObjects: [],
+      };
+
+      for (let i = 1; i <= totalPages; i++) {
+        obj.countNumPages.push(i);
+
+        obj.listObjects.push(
+          countSnapshot.docChanges()[i === 1 ? 0 : (i - 1) * 9 - 1].doc
+        );
+      }
+      setNextDesigns(obj);
+    } catch (e) {
+      console.error("Error ", e);
+    }
+  }
 
   async function getData(q: Query<unknown, DocumentData>) {
     try {
@@ -136,6 +129,7 @@ export default function MyWorks() {
         }
         count++;
       });
+      
       setListDesings([list1, list2, list3]);
     } catch (e) {
       console.error("Error ", e);
@@ -153,6 +147,13 @@ export default function MyWorks() {
       );
 
       await getData(q);
+      await getPagination(
+        query(
+          collectionRef,
+          where("date", ">", new Date("2024-01-01")),
+          orderBy("date", "desc")
+        )
+      );
     } catch (e) {
       console.error("Error ", e);
     }
@@ -166,9 +167,12 @@ export default function MyWorks() {
   async function filterDesings(filter: string) {
     try {
       const collectionRef = collection(db, "/design/mt/data");
-      const q = query(collectionRef, where("filter", "==", filter));
+      const q = query(collectionRef, limit(9), where("filter", "==", filter));
 
       await getData(q);
+
+      await getPagination(query(collectionRef, where("filter", "==", filter)));
+      setCurrentOptionFilter(filter);
     } catch (e) {
       console.error("Error ", e);
     }
@@ -284,24 +288,40 @@ export default function MyWorks() {
           ))}
         </ul>
       </Styled.Filters>
-      <h4>todos</h4>
+      <h4>{currentOptionFilter}</h4>
+
+      {listDesings === null && (
+        <Styled.LoadingContainer>
+          <div />
+          <div />
+          <div />
+        </Styled.LoadingContainer>
+      )}
+
+      {listDesings !== null && listDesings[0].length == 0 && (
+        <>
+          <strong>Sem designs no momentos</strong>
+        </>
+      )}
 
       <Styled.ContainerWorks>
-        {listDesings.map((resp) => (
-          <ul>
-            {resp.map((respDoc: IDesign) => (
-              <Reveal initialY={50} delay={0.1} duration={0.3}>
-                <li onClick={() => handleViewDesing(respDoc)}>
-                  {respDoc.design !== null && (
-                    <>
-                      <img src={respDoc.design} alt="design" />
-                    </>
-                  )}
-                </li>
-              </Reveal>
-            ))}
-          </ul>
-        ))}
+        {listDesings &&
+          listDesings.length > 0 &&
+          listDesings.map((resp) => (
+            <ul>
+              {resp.map((respDoc: IDesign) => (
+                <Reveal initialY={50} delay={0.1} duration={0.3}>
+                  <li onClick={() => handleViewDesing(respDoc)}>
+                    {respDoc.design !== null && (
+                      <>
+                        <img src={respDoc.design} alt="design" />
+                      </>
+                    )}
+                  </li>
+                </Reveal>
+              ))}
+            </ul>
+          ))}
       </Styled.ContainerWorks>
 
       <Styled.ForwardOrBack>
