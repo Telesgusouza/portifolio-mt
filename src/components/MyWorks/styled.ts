@@ -7,7 +7,7 @@ interface ILiPage {
 export const Container = styled.section`
   position: relative;
 
-  padding-top: 25px;
+  padding-top: 20px;
   padding-bottom: 25px;
 
   h4 {
@@ -24,6 +24,7 @@ export const Filters = styled.div`
 
   ul {
     display: flex;
+    flex-wrap: wrap;
 
     overflow: hidden;
     white-space: nowrap;
@@ -31,6 +32,7 @@ export const Filters = styled.div`
   }
 
   li {
+    margin-top: 8px;
     padding: 2px 7px;
     text-transform: capitalize;
     margin-left: 7px;
@@ -151,18 +153,19 @@ export const ForwardOrBack = styled.div`
 
 export const ShowDesign = styled.div`
   position: fixed;
-  /* position: absolute; */
   top: 0;
   left: 0;
   z-index: 1100;
 
   padding: 20px;
 
+  padding-top: 0;
+
   display: flex;
   flex-direction: column;
 
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
 
   width: 100%;
   height: 100%;
@@ -176,10 +179,7 @@ export const ShowDesignContent = styled.div`
 
   width: 100%;
   max-width: 900px;
-
   max-height: calc(100vh - 90px);
-
-  background-color: red;
 
   padding: 15px;
 
@@ -223,11 +223,17 @@ export const ContainerButton = styled.div`
   width: 100%;
   padding: 10px 30px 20px 30px;
 
+
   button {
     border: none;
     padding: 4px 14px;
     color: white;
     background-color: #ff6961;
+  }
+
+  @media (max-width: 850px) {
+    padding-left: 0;
+    padding-bottom: 8px;
   }
 `;
 

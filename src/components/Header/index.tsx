@@ -24,6 +24,8 @@ export default function Header() {
     whatsapp: "",
   });
 
+  const [inputStatus, setInputStatus] = useState<boolean>(false);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -54,12 +56,16 @@ export default function Header() {
 
   function handleReload(url: string) {
     window.open(url);
+    setInputStatus(false);
   }
 
   return (
     <Styled.Container>
       <header className="box">
-        <img src={linksAndIcon.icon.length > 0 ? linksAndIcon.icon : iconPhoto} alt="icon" />
+        <img
+          src={linksAndIcon.icon.length > 0 ? linksAndIcon.icon : iconPhoto}
+          alt="icon"
+        />
         <ul>
           {linksAndIcon.instagram.length > 1 && (
             <li onClick={() => handleReload(linksAndIcon.instagram)}>
@@ -73,8 +79,12 @@ export default function Header() {
             </li>
           )}
 
-          {linksAndIcon.whatsapp.length > 1 && (
-            <li onClick={() => handleReload("https://wa.me/"+linksAndIcon.whatsapp)}>
+          {linksAndIcon.whatsapp.length > 8 && (
+            <li
+              onClick={() =>
+                handleReload("https://wa.me/" + linksAndIcon.whatsapp)
+              }
+            >
               <img src={iconWhatsapp} alt="icone whatsapp" />
             </li>
           )}
@@ -96,26 +106,72 @@ export default function Header() {
           </li>
         </ul>
         <Styled.MenuMobile>
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            onClick={() => setInputStatus(!inputStatus)}
+            checked={inputStatus}
+          />
           <nav>
             <span></span>
             <span></span>
             <span></span>
           </nav>
           <ul>
-            <li>Sobre mim</li>
-            <li>Trabalhos</li>
-            <li>Orçamento</li>
+            <li>
+              <Link
+                to="aboutme"
+                spy={true}
+                smooth={true}
+                duration={500}
+                onClick={() => setInputStatus(false)}
+              >
+                Sobre mim
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="works"
+                spy={true}
+                smooth={true}
+                duration={500}
+                onClick={() => setInputStatus(false)}
+              >
+                Trabalhos
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="budget"
+                spy={true}
+                smooth={true}
+                duration={500}
+                onClick={() => setInputStatus(false)}
+              >
+                Orçamento
+              </Link>
+            </li>
 
-            <li>
-              <img src={iconInstagrem} alt="icone ... " />
-            </li>
-            <li>
-              <img src={iconLinkedin} alt="icone ... " />
-            </li>
-            <li>
-              <img src={iconWhatsapp} alt="icone ... " />
-            </li>
+            {linksAndIcon.instagram.length > 1 && (
+              <li onClick={() => handleReload(linksAndIcon.instagram)}>
+                <img src={iconInstagrem} alt="icone instagram" />
+              </li>
+            )}
+
+            {linksAndIcon.linkedin.length > 1 && (
+              <li onClick={() => handleReload(linksAndIcon.linkedin)}>
+                <img src={iconLinkedin} alt="icone linkedin" />
+              </li>
+            )}
+
+            {linksAndIcon.whatsapp.length > 1 && (
+              <li
+                onClick={() =>
+                  handleReload("https://wa.me/" + linksAndIcon.whatsapp)
+                }
+              >
+                <img src={iconWhatsapp} alt="icone whatsapp" />
+              </li>
+            )}
           </ul>
         </Styled.MenuMobile>
       </header>

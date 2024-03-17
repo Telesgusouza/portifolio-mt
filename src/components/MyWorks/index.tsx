@@ -129,7 +129,7 @@ export default function MyWorks() {
         }
         count++;
       });
-      
+
       setListDesings([list1, list2, list3]);
     } catch (e) {
       console.error("Error ", e);
@@ -154,6 +154,8 @@ export default function MyWorks() {
           orderBy("date", "desc")
         )
       );
+
+      setCurrentOptionFilter("Todos");
     } catch (e) {
       console.error("Error ", e);
     }
@@ -185,12 +187,24 @@ export default function MyWorks() {
       switch (page) {
         case "BACK": {
           if (nextDesigns.currentPage !== 1) {
-            const q = query(
-              collectionRef,
-              orderBy("date", "desc"),
-              endBefore(lastVisible),
-              limit(9)
-            );
+            let q;
+            if (currentOptionFilter !== "Todos") {
+              q = query(
+                collectionRef,
+                where("filter", "==", currentOptionFilter),
+                endBefore(lastVisible),
+                limit(9)
+              );
+            } else {
+              q = query(
+                collectionRef,
+                orderBy("date", "desc"),
+
+                endBefore(lastVisible),
+                limit(9)
+              );
+            }
+
             await getData(q);
 
             const obj = nextDesigns;
@@ -206,12 +220,23 @@ export default function MyWorks() {
             nextDesigns.currentPage !==
             nextDesigns.countNumPages[nextDesigns.countNumPages.length - 1]
           ) {
-            const q = query(
-              collectionRef,
-              orderBy("date", "desc"),
-              startAt(lastVisible),
-              limit(9)
-            );
+            let q;
+            if (currentOptionFilter !== "Todos") {
+              q = query(
+                collectionRef,
+                where("filter", "==", currentOptionFilter),
+                startAt(lastVisible),
+                limit(9)
+              );
+            } else {
+              q = query(
+                collectionRef,
+                orderBy("date", "desc"),
+
+                startAt(lastVisible),
+                limit(9)
+              );
+            }
 
             await getData(q);
 
@@ -223,14 +248,26 @@ export default function MyWorks() {
         }
 
         case "PAGE": {
-          console.log(nextDesigns.listObjects[numPage - 1].data().design);
+          let q;
+          if (currentOptionFilter !== "Todos") {
+            console.log("CHEGUEI FOI AQUI");
 
-          const q = query(
-            collectionRef,
-            orderBy("date", "desc"),
-            startAt(nextDesigns.listObjects[numPage - 1]),
-            limit(9)
-          );
+            q = query(
+              collectionRef,
+              where("filter", "==", currentOptionFilter),
+              startAt(nextDesigns.listObjects[numPage - 1]),
+              limit(9)
+            );
+          } else {
+            console.log("DEVERIA ESTAR AQUI NÃO É MESMO");
+            q = query(
+              collectionRef,
+              orderBy("date", "desc"),
+
+              startAt(nextDesigns.listObjects[numPage - 1]),
+              limit(9)
+            );
+          }
 
           const obj = nextDesigns;
           nextDesigns.currentPage = numPage;
@@ -245,6 +282,8 @@ export default function MyWorks() {
       console.error("Error ", e);
     }
   }
+
+  console.log(currentData);
 
   return (
     <Styled.Container className="box" id="works">
@@ -263,14 +302,9 @@ export default function MyWorks() {
               )}
 
               <div>
-                <h4>titulo</h4>
+                <h4>{currentData?.title}</h4>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi
-                  quis deleniti expedita aut esse. Ratione voluptates placeat
-                  quae nemo quis necessitatibus eligendi, esse unde dignissimos
-                  nostrum voluptatum consequatur aperiam voluptas voluptatibus
-                  dolor illum maxime non sapiente. Necessitatibus officia
-                  perferendis dignissimos?
+                  {currentData?.decription}
                 </p>
               </div>
             </Styled.ShowDesignContent>
@@ -282,9 +316,9 @@ export default function MyWorks() {
         <ul>
           <li onClick={getDataDesign}>todos</li>
           {listFilters.map((resp) => (
-            <>
-              <li onClick={() => filterDesings(resp)}>{resp}</li>
-            </>
+            <li onClick={() => filterDesings(resp)} key={resp}>
+              {resp}
+            </li>
           ))}
         </ul>
       </Styled.Filters>
@@ -307,10 +341,15 @@ export default function MyWorks() {
       <Styled.ContainerWorks>
         {listDesings &&
           listDesings.length > 0 &&
-          listDesings.map((resp) => (
-            <ul>
+          listDesings.map((resp, index) => (
+            <ul key={index}>
               {resp.map((respDoc: IDesign) => (
-                <Reveal initialY={50} delay={0.1} duration={0.3}>
+                <Reveal
+                  initialY={50}
+                  delay={0.1}
+                  duration={0.3}
+                  key={respDoc.id}
+                >
                   <li onClick={() => handleViewDesing(respDoc)}>
                     {respDoc.design !== null && (
                       <>
@@ -335,14 +374,13 @@ export default function MyWorks() {
               )}
 
               {nextDesigns.countNumPages.map((count) => (
-                <>
-                  <Styled.LiPage
-                    onClick={() => nextBackPage("PAGE", count)}
-                    selected={nextDesigns.currentPage == count}
-                  >
-                    {count}
-                  </Styled.LiPage>
-                </>
+                <Styled.LiPage
+                  onClick={() => nextBackPage("PAGE", count)}
+                  selected={nextDesigns.currentPage == count}
+                  key={count}
+                >
+                  {count}
+                </Styled.LiPage>
               ))}
               {nextDesigns.countNumPages.length > 1 && (
                 <Styled.LiPage onClick={() => nextBackPage("NEXT")}>

@@ -16,9 +16,11 @@ export default function AboutMe() {
       try {
         const getData = await getDoc(doc(db, "/data/aboutme"));
         const getPhoto = await getDownloadURL(ref(storage, "/data/aboutme"));
-        setPhoto(getPhoto);
+
+        setPhoto(getPhoto ? getPhoto : "");
         setDescription(getData.data()?.description);
       } catch (e) {
+        setPhoto("");
         console.error("Error ", e);
       }
     }

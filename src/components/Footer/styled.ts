@@ -61,9 +61,13 @@ export const ContainerContent = styled.div`
 
     ul {
       margin-bottom: 24px;
+      justify-content: center;
     }
 
     li {
+      width: fit-content;
+
+      margin: 0 auto 8px auto;
     }
   }
 `;
