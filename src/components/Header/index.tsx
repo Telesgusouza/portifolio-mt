@@ -79,7 +79,7 @@ export default function Header() {
             </li>
           )}
 
-          {linksAndIcon.whatsapp.length > 8 && (
+          {linksAndIcon.whatsapp.length > 10 && (
             <li
               onClick={() =>
                 handleReload("https://wa.me/" + linksAndIcon.whatsapp)
@@ -163,7 +163,7 @@ export default function Header() {
               </li>
             )}
 
-            {linksAndIcon.whatsapp.length > 1 && (
+            {linksAndIcon.whatsapp.length > 10 && (
               <li
                 onClick={() =>
                   handleReload("https://wa.me/" + linksAndIcon.whatsapp)

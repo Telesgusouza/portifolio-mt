@@ -283,8 +283,6 @@ export default function MyWorks() {
     }
   }
 
-  console.log(currentData);
-
   return (
     <Styled.Container className="box" id="works">
       <Hr />

@@ -7,13 +7,7 @@ import { db } from "../../config/firebase/firebase";
 
 export default function SectionBudget() {
   const [description, setDescription] = useState<string>("");
-  const [phoneNumber, setPhoneNumber] = useState<string | null>(null);
-
-  /*
-  
-  boa noite, dentro da minha pagina tem um campo de texto, e botão que redirecionara para uma conversa do whatsapp, quero que o texto fique ali para ser envido pelo usuario, ou que já seja enviado assim q entre no link
-  
-  */
+  const [phoneNumber, setPhoneNumber] = useState<string | null>("");
 
   useEffect(() => {
     async function getPhoneNumber() {
@@ -33,14 +27,14 @@ export default function SectionBudget() {
   function handleBudget(e: React.FormEvent<HTMLElement>) {
     e.preventDefault();
     const msg = encodeURIComponent(description);
-    const url = `https://wa.me/${phoneNumber}?text=${msg}`
+    const url = `https://wa.me/${phoneNumber}?text=${msg}`;
 
     window.open(url);
   }
 
   return (
     <>
-      {phoneNumber !== null && (
+      {phoneNumber && phoneNumber?.trim().length > 10 && (
         <Styled.Container id="budget">
           <Hr />
           <Styled.ContainerContent onSubmit={handleBudget} className="box">
